@@ -1,0 +1,32 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.4"}
+        io.fusionauth/java-http {:mvn/version "1.4.0"}
+        org.ring-clojure/ring-core-protocols {:mvn/version "1.15.3"}
+        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
+
+ :aliases {:test {:main-opts ["-m" "kaocha.runner"]
+                  :extra-paths ["test"]
+                  :jvm-opts ["-XX:-OmitStackTraceInFastThrow"
+                             "-Duser.timezone=UTC"]
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
+                               nubank/matcher-combinators {:mvn/version "3.9.2"}
+                               ;; HTTP client deps
+                               hato/hato {:mvn/version "1.1.0-SNAPSHOT"}
+                               cheshire/cheshire {:mvn/version "6.1.0"}
+                               ;; all of the stuff we need to make a Ring-based API
+                               io.github.tonsky/clj-simple-router {:mvn/version "0.1.2"}
+                               ring/ring-core {:mvn/version "1.15.3"}
+
+                               ring/ring-defaults {:mvn/version "0.7.0"
+                                                   :exclusions [ring/ring-core]}
+
+                               ring/ring-json {:mvn/version "0.5.1"
+                                               :exclusions [commons-io/commons-io]}
+
+                               ring/ring-headers {:mvn/version "0.4.0"
+                                                  :exclusions [ring/ring-core]}
+
+                               commons-codec/commons-codec {:mvn/version "1.20.0"}
+                               commons-io/commons-io {:mvn/version "2.21.0"}
+
+                               ring/ring-servlet {:mvn/version "1.15.3"}}}}}
