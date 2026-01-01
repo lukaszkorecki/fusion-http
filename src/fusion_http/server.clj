@@ -12,9 +12,19 @@
 (defn ring-fn->handler [handler]
   (reify HTTPHandler
     (^void handle [_this ^HTTPRequest request ^HTTPResponse response]
-      (->> (ring/->ring-map request)
-           handler
-           (ring/->http-response response)))))
+      (try
+        (->> (ring/->ring-map request)
+             handler
+             (ring/->http-response response))
+
+        (catch Exception e
+
+          (tap> e)
+          (ring/->http-response response {:status 500
+                                   :body (str "Internal Server Error: " (ex-message e))
+                                   :headers {:content-type "text/plain"}})
+
+          )))))
 
 (defn run-fusion-http-server [ring-handler {:keys [port]
                                             :or {port 3000}

@@ -52,7 +52,7 @@
     (.setStatus response status))
   (doseq [[k v] headers]
     ;; TODO: handle multi-value headers
-    (.setHeader response k v))
+    (.setHeader response (name k) (str v)))
 
   ;; XXX: this... is not great - but Ring does not enforce any particular case for Content-Type header(?)
   (let [content-type (some #(get headers %) all-content-type-header-namees)]
