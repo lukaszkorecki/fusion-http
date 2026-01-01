@@ -1,7 +1,8 @@
 (ns fusion-http.server
   (:require [fusion-http.server.ring :as ring])
-  (:import [io.fusionauth.http.server HTTPListenerConfiguration
+  (:import [io.fusionauth.http.server
             HTTPServer
+            HTTPListenerConfiguration
             HTTPHandler HTTPRequest HTTPResponse]))
 
 (set! *warn-on-reflection* true)

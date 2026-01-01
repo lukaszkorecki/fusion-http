@@ -1,8 +1,7 @@
 {:paths ["src"]
  :deps {org.clojure/clojure {:mvn/version "1.12.4"}
         io.fusionauth/java-http {:mvn/version "1.4.0"}
-        org.ring-clojure/ring-core-protocols {:mvn/version "1.15.3"}
-        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
+        org.ring-clojure/ring-core-protocols {:mvn/version "1.15.3"}}
 
  :aliases {:test {:main-opts ["-m" "kaocha.runner"]
                   :extra-paths ["test"]
@@ -10,6 +9,9 @@
                              "-Duser.timezone=UTC"]
                   :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
                                nubank/matcher-combinators {:mvn/version "3.9.2"}
+
+                               com.stuartsierra/component {:mvn/version "1.1.0"}
+
                                ;; HTTP client deps
                                hato/hato {:mvn/version "1.1.0-SNAPSHOT"}
                                cheshire/cheshire {:mvn/version "6.1.0"}
@@ -26,7 +28,6 @@
                                ring/ring-headers {:mvn/version "0.4.0"
                                                   :exclusions [ring/ring-core]}
 
+                               ring/ring-servlet {:mvn/version "1.15.3"}
                                commons-codec/commons-codec {:mvn/version "1.20.0"}
-                               commons-io/commons-io {:mvn/version "2.21.0"}
-
-                               ring/ring-servlet {:mvn/version "1.15.3"}}}}}
+                               commons-io/commons-io {:mvn/version "2.21.0"}}}}}

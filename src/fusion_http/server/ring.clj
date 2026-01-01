@@ -1,6 +1,5 @@
 (ns fusion-http.server.ring
-  (:require [camel-snake-kebab.core :as csk] ;; XXX: do we need this?
-            [ring.core.protocols :as ring-protocols]
+  (:require [ring.core.protocols :as ring-protocols]
             [clojure.string :as str])
   (:import [java.net URI]
            [io.fusionauth.http.server HTTPRequest HTTPResponse]))
