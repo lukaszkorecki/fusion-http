@@ -122,7 +122,7 @@
                       (test)))
 
 (use-fixtures :once (fn [test]
-                      (with-open [_server-instance (server/run-fusion-http-server app {:port 4002})]
+                      (with-open [_server-instance (server/create app {:port 4002})]
                         (test))))
 
 ;; ============================================================================

@@ -55,7 +55,7 @@
 
 (use-fixtures :once (fn [test]
                       (reset! request-store [])
-                      (with-open [_server-instance (server/run-fusion-http-server app {:port 4001})]
+                      (with-open [_server-instance (server/create app {:port 4001})]
                         (test))))
 
 (deftest a-404-test

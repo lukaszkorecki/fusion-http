@@ -16,20 +16,15 @@
         (->> (ring/->ring-map request)
              handler
              (ring/->http-response response))
-
         (catch Exception e
-
-          (tap> e)
           (ring/->http-response response {:status 500
-                                   :body (str "Internal Server Error: " (ex-message e))
-                                   :headers {:content-type "text/plain"}})
+                                          :body (str "Internal Server Error: " (ex-message e))
+                                          :headers {:content-type "text/plain"}}))))))
 
-          )))))
-
-(defn run-fusion-http-server [ring-handler {:keys [port]
-                                            :or {port 3000}
-                                            ;; TODO: support more options
-                                            :as _options}]
+(defn create [ring-handler {:keys [port]
+                            :or {port 3000}
+                            ;; TODO: support more options
+                            :as _options}]
   {:pre [(fn? ring-handler)
          (integer? port)]}
   (doto (HTTPServer.)
