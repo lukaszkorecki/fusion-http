@@ -1,0 +1,5 @@
+[tools]
+babashka = "latest"
+clojure = "latest"
+graalvm = "latest"
+java = "temurin-25"
