@@ -56,6 +56,4 @@
   ;; XXX: this... is not great - but Ring does not enforce any particular case for Content-Type header(?)
   (let [content-type (some #(get headers %) all-content-type-header-namees)]
     (.setContentType response ^String (or content-type "text/plain")))
-
-  (tap> {:body body})
   (ring-protocols/write-body-to-stream body ring-response (.getOutputStream response)))
