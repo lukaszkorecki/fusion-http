@@ -19,6 +19,9 @@
                                       "Content-Type" "text/plain; charset=utf-8"}
                             :body (File. "test/fusion_http/files/test.txt")})
 
+    "GET /500-error" (fn [_req]
+                       "I will cause a failure in converting repsonse to HTTP Response")
+
     "POST /form-params" (fn [req]
                              ;; just return something to indicate we got the request
                           {:status 200
@@ -86,4 +89,15 @@
 
 (deftest file-download-test
   (is (= "foobar\n"
-         (:body (request {:url "http://localhost:4001/file-download" :method :get :as :text #_stream})))))
+         (slurp (:body (request {:url "http://localhost:4001/file-download" :method :get :as :stream}))))))
+
+(deftest server-error-test
+  (testing "500 error handling"
+    (let [response (request {:url "http://localhost:4001/500-error"})]
+
+      (is (match? {:body "Internal Server Error: class java.lang.String cannot be cast to class clojure.lang.Associative (java.lang.String is in module java.base of loader 'bootstrap'; clojure.lang.Associative is in unnamed module of loader 'app')"
+                   :status 500
+                   :uri "http://localhost:4001/500-error"
+                   :version :http-1.1}
+
+                  response)))))

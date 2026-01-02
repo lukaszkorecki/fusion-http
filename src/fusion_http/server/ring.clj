@@ -23,10 +23,10 @@
 ;; :ssl-client-cert 	java.security.cert.X509Certificate
 ;; :uri 	String 	Yes
 
-(defn ->ring-map [^HTTPRequest request]
+(defn ->req-map [^HTTPRequest request]
   (let [uri (URI. ^String (.getBaseURL request))]
     {:body (.getInputStream request)
-    ;; headers are a Map<String, List<String>> - need to convert to Map<String, String>
+    ;; headers are a Map<String, List<String>> - need to convert to Map<String, String> or Map<Keyword, String[]> as per Ring spec
      :headers (-> (into {} (.getHeaders request))
                   (update-vals (fn [val]
                                  ;; as per Ring spec - we need to convert single value lists to just the value
@@ -57,4 +57,5 @@
   (let [content-type (some #(get headers %) all-content-type-header-namees)]
     (.setContentType response ^String (or content-type "text/plain")))
 
+  (tap> {:body body})
   (ring-protocols/write-body-to-stream body ring-response (.getOutputStream response)))
