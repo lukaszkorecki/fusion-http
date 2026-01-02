@@ -4,9 +4,18 @@
   (:import [io.fusionauth.http.server
             HTTPServer
             HTTPListenerConfiguration
-            HTTPHandler HTTPRequest HTTPResponse]))
+
+            HTTPHandler HTTPRequest HTTPResponse]
+           [io.fusionauth.http.log
+            LoggerFactory
+            Logger]))
 
 (set! *warn-on-reflection* true)
+
+(def logger-factory ^LoggerFactory (logger/factory))
+
+(def ^:private ^Logger default-logger
+  (LoggerFactory/.getLogger logger-factory HTTPServer))
 
 ;; XXX: only synchronous handlers supported for now, no async
 ;; but that might not matter since FusionAuth HTTP server handles threading via virtual threads
@@ -19,13 +28,10 @@
              handler
              (ring/->http-response response))
         (catch Exception e
+          (Logger/.error default-logger "Error processing request" e)
           (ring/->http-response response {:status 500
                                           :body (str "Internal Server Error: " (ex-message e))
                                           :headers {"content-type" "text/plain"}}))))))
-
-(defn ->configuration [{:keys [port]
-
-                        :or {port 3000}}])
 
 (defn create [ring-handler {:keys [port]
                             :or {port 3000}
@@ -36,5 +42,5 @@
   (doto (HTTPServer.)
     (.withHandler (ring-fn->handler ring-handler))
     (.withListener (HTTPListenerConfiguration. port))
-    (.withLoggerFactory (logger/factory))
+    (.withLoggerFactory logger-factory)
     (.start)))
